@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mathe-Spaß</title>
+  <style>
+    /* Einfache Styles für eine ansprechende Optik */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+    }
+    #game-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    #score {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    #question {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    #answer-input {
+      font-size: 24px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100px;
+    }
+    #submit-button {
+      font-size: 24px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="score">Punkte: 0</div>
+    <div id="question"></div>
+    <input type="text" id="answer-input" placeholder="Deine Antwort">
+    <button id="submit-button">Überprüfen</button>
+  </div>
+
+  <script>
+    // Spiellogik basierend auf einem GitHub-Projekt
+    const operations = ['+', '-', '*', '/'];
+    let score = 0;
+    let currentQuestion;
+
+    function generateQuestion() {
+      const operation = operations[Math.floor(Math.random() * operations.length)];
+      const num1 = Math.floor(Math.random() * 10);
+      const num2 = Math.floor(Math.random() * 10);
+      let answer;
+      switch (operation) {
+        case '+':
+          answer = num1 + num2;
+          break;
+        case '-':
+          answer = num1 - num2;
+          break;
+        case '*':
+          answer = num1 * num2;
+          break;
+        case '/':
+          answer = num1 / num2;
+          break;
+      }
+      currentQuestion = { operation, num1, num2, answer };
+      document.getElementById('question').textContent = `${num1} ${operation} ${num2}`;
+    }
+
+    function checkAnswer() {
+      const userAnswer = parseInt(document.getElementById('answer-input').value);
+      if (userAnswer === currentQuestion.answer) {
+        alert('Richtig!');
+        score += 10;
+        document.getElementById('score').textContent = `Punkte: ${score}`;
+      } else {
+        alert('Leider falsch. Versuche es noch einmal!');
+      }
+      document.getElementById('answer-input').value = '';
+      generateQuestion();
+    }
+
+    document.getElementById('submit-button').addEventListener('click', checkAnswer);
+    generateQuestion();
+  </script>
+</body>
+</html>
